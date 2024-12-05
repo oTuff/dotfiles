@@ -1,0 +1,29 @@
+[env]
+TERM = "xterm-256color"
+
+[colors.primary]
+background = '#000000'
+foreground = '#FFFFFF'
+
+[colors.normal]
+black = "#000000"
+red = "#FF0000"
+green = "#00FF00"
+yellow = "#FFFF00"
+blue = "#0000FF"
+magenta = "#FF00FF"
+cyan = "#00FFFF"
+white = "#FFFFFF"
+
+[colors.bright]
+black = "#555555"
+red = "#FF5555"
+green = "#55FF55"
+yellow = "#FFFF55"
+blue = "#5555FF"
+magenta = "#FF55FF"
+cyan = "#55FFFF"
+white = "#FFFFFF"
+
+[font]
+size = 12.69
