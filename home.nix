@@ -15,14 +15,11 @@
   home.packages = with pkgs; [
     # firefox
     # mupdf
+    # (config.lib.nixGL.wrap wezterm)
+
     # dev tools
-    # (config.lib.nixGL.wrap alacritty)
+    git-credential-manager
     tmux
-    # git
-    # git-lfs
-    # git-credential-manager
-    direnv
-    zoxide
     fzf
     postgresql
     # yazi
@@ -63,13 +60,66 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-  # programs.direnv.enable = true;
 
-  # same as the above in `home.packages`
-  # programs.alacritty = {
-  #   enable = true;
-  #   package = config.lib.nixGL.wrap pkgs.alacritty;
-  # };
+  # Gnome settings
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      accent-color = "blue";
+    };
+    "org/gnome/shell" = {
+      disable-user-extensions = true;
+    };
+    "org/gnome/mutter" = {
+      dynamic-workspaces = false;
+    };
+    "org/gnome/shell/keybindings" = {
+      switch-to-application-1 = [ ];
+      switch-to-application-2 = [ ];
+      switch-to-application-3 = [ ];
+      switch-to-application-4 = [ ];
+    };
+    "org/gnome/desktop/wm/keybindings" = {
+      close = [ "<Shift><Super>q" ];
+      toggle-fullscreen = [ "<Super>f" ];
+      switch-to-workspace-1 = [ "<Super>1" ];
+      switch-to-workspace-2 = [ "<Super>2" ];
+      switch-to-workspace-3 = [ "<Super>3" ];
+      switch-to-workspace-4 = [ "<Super>4" ];
+      move-to-workspace-1 = [ "<Shift><Super>1" ];
+      move-to-workspace-2 = [ "<Shift><Super>2" ];
+      move-to-workspace-3 = [ "<Shift><Super>3" ];
+      move-to-workspace-4 = [ "<Shift><Super>4" ];
+    };
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+      ];
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      binding = "<Super>Return";
+      command = "flatpak run org.wezfurlong.wezterm";
+      name = "open-terminal";
+    };
+  };
+
+  programs.bash.enable = true;
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+  programs.git = {
+    enable = true;
+    lfs.enable = true;
+    # package = pkgs.gitFull;
+    extraConfig = {
+      credential.helper = "manager";
+    };
+  };
 
   # Neovim config - mainly plugins
   programs.neovim = {
@@ -105,12 +155,11 @@
     ".inputrc".source = ./.inputrc;
     ".tmux.conf".source = ./.tmux.conf;
     ".config/nvim/".source = ./nvim;
-    ".wezterm.lua/".source = ./.wezterm.lua;
+    # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
     # ".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   };
   # home.sessionVariables = {
-  # PROMPT_COMMAND = "history -a"; # not needed when i have tmux conf
-  # EDITOR = "nvim"; # is this needed?
+  #   EDITOR = "nvim"; # is this needed?
   # };
 
   programs.home-manager.enable = true;
