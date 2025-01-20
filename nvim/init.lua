@@ -73,7 +73,7 @@ require("gitsigns").setup({
 })
 
 -- latex preview
-vim.g.mkdp_browser = "chromium-browser"
+-- vim.g.mkdp_browser = "flatpak run org.mozilla.firefox"
 vim.g.latex_pdf_viewer = "mupdf-x11"
 
 -- Markdown preview with tatum
