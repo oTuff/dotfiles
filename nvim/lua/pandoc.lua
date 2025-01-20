@@ -1,0 +1,56 @@
+-- local browser_pid = nil
+--
+-- local function preview_markdown()
+-- 	local file_path = vim.fn.expand("%:p")
+-- 	local temp_file = vim.fn.tempname() .. ".html"
+--
+-- 	Refresh_file(file_path, temp_file)
+--
+-- 	browser_pid = vim.fn.jobstart({ "surf", temp_file }, { detach = true })
+--
+-- 	-- Regenerate the HTML on save
+-- 	vim.api.nvim_create_autocmd("BufWritePost", {
+-- 		pattern = file_path,
+-- 		callback = function()
+-- 			Refresh_file(file_path, temp_file)
+-- 		end,
+-- 	})
+--
+-- 	-- Close browser when the neovim buffer closes
+-- 	vim.api.nvim_create_autocmd("BufUnload", {
+-- 		pattern = file_path,
+-- 		callback = function()
+-- 			if browser_pid then
+-- 				vim.fn.jobstop(browser_pid)
+-- 				browser_pid = nil
+-- 			end
+-- 		end,
+-- 	})
+-- end
+--
+-- function Refresh_file(file_path, temp_file)
+-- 	vim.fn.system("pandoc -s " .. file_path .. " -o " .. temp_file)
+-- 	-- Read the generated HTML content
+-- 	local file = io.open(temp_file, "r")
+-- 	if file then
+-- 		local content = file:read("*all")
+-- 		file:close()
+-- 		-- Insert the script before </body>
+-- 		content = content:gsub(
+-- 			"</body>",
+-- 			[[
+-- 				<script>
+-- 				  setTimeout(function() { location.reload(); }, 1000);
+-- 				</script>
+-- 				</body>]]
+-- 		)
+-- 		-- Write the modified content back to the file
+-- 		file = io.open(temp_file, "w")
+-- 		if file then
+-- 			file:write(content)
+-- 			file:close()
+-- 		end
+-- 	end
+-- end
+--
+-- vim.api.nvim_create_user_command("Preview", preview_markdown, {})

@@ -1,26 +1,32 @@
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 12
+# normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+# bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+# italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+
 [colors.primary]
-background = "#000000"
 foreground = "#FFFFFF"
+background = "#000000"
 
 [colors.normal]
 black = "#000000"
-red = "#FF0000"
-green = "#00FF00"
-yellow = "#FFFF00"
-blue = "#0000FF"
-magenta = "#FF00FF"
-cyan = "#00FFFF"
-white = "#FFFFFF"
+red = "#cd0000"
+green = "#00cd00"
+yellow = "#cdcd00"
+blue = "#0000ee"
+magenta = "#cd00cd"
+cyan = "#00cdcd"
+white = "#e5e5e5"
 
 [colors.bright]
-black = "#555555"
-red = "#FF5555"
-green = "#55FF55"
-yellow = "#FFFF55"
-blue = "#5555FF"
-magenta = "#FF55FF"
-cyan = "#55FFFF"
-white = "#FFFFFF"
-
-[font]
-size = 12.69
+black = "#7f7f7f"
+red = "#ff0000"
+green = "#00ff00"
+yellow = "#ffff00"
+blue = "#5c5cff"
+magenta = "#ff00ff"
+cyan = "#00ffff"
+white = "#ffffff"
