@@ -38,3 +38,11 @@ sudo rpm-ostree initramfs-etc --track=/etc/vconsole.conf
 ```
 flatpak install org.wezfurlong.wezterm
 ```
+
+add this to .config/topgrade.toml under '[linux]'
+
+```
+nix_arguments = "--flake"
+
+home_manager_arguments = ["--flake", "/home/user/dotfiles/"]
+```
