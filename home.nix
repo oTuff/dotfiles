@@ -159,7 +159,7 @@
     ".inputrc".source = ./.inputrc;
     ".tmux.conf".source = ./.tmux.conf;
     ".config/nvim/".source = ./nvim;
-    ".wezterm.lua/".source = ./.wezterm.lua;
+    # ".wezterm.lua/".source = ./.wezterm.lua;
     # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
     # ".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   };
