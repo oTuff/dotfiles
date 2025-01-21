@@ -70,6 +70,9 @@
     "org/gnome/shell" = {
       disable-user-extensions = true;
     };
+    "org/gnome/desktop/peripherals/mouse" = {
+      accel-profile = "flat";
+    };
     "org/gnome/mutter" = {
       dynamic-workspaces = false;
     };
@@ -92,6 +95,7 @@
       move-to-workspace-4 = [ "<Shift><Super>4" ];
     };
     "org/gnome/settings-daemon/plugins/media-keys" = {
+      screensaver = [ "<Super>i" ];
       custom-keybindings = [
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
       ];
