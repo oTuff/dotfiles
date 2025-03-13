@@ -1,18 +1,19 @@
 require("nvim-treesitter.configs").setup({
-	indent = { enable = true },
+	indent = { enable = true, disable = { "yaml" } },
 	highlight = {
 		enable = true,
 		disable = { "csv" },
-		additional_vim_regex_highlighting = false,
+		additional_vim_regex_highlighting = true,
 	},
 	-- incremental_selection = {
 	-- 	enable = true,
 	-- },
 	-- refactor = {
-	-- highlight_current_scope = { enable = true },
-	-- highlight_definitions = {
-	-- 	enable = true,
-	-- 	clear_on_cursor_move = false,
+	-- 	-- highlight_current_scope = { enable = true },
+	-- 	highlight_definitions = {
+	-- 		enable = true,
+	-- 		clear_on_cursor_move = true,
+	-- 	},
 	-- },
 
 	-- treesitter context aware navigation
@@ -36,21 +37,21 @@ require("nvim-treesitter.configs").setup({
 	-- 	},
 	-- },
 	-- },
-	textobjects = {
-		select = {
-			enable = true,
-
-			-- Automatically jump forward to textobj, similar to targets.vim
-			lookahead = true,
-			keymaps = {
-				["af"] = "@function.outer",
-				["if"] = "@function.inner",
-				["ac"] = "@class.outer",
-				["ic"] = "@class.inner",
-				["as"] = "@local.scope",
-			},
-		},
-	},
+	-- textobjects = {
+	-- 	select = {
+	-- 		enable = true,
+	--
+	-- 		-- Automatically jump forward to textobj, similar to targets.vim
+	-- 		lookahead = true,
+	-- 		keymaps = {
+	-- 			["af"] = "@function.outer",
+	-- 			["if"] = "@function.inner",
+	-- 			["ac"] = "@class.outer",
+	-- 			["ic"] = "@class.inner",
+	-- 			["as"] = "@local.scope",
+	-- 		},
+	-- 	},
+	-- },
 })
 
 require("treesitter-context").setup({

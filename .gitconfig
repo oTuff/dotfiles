@@ -11,6 +11,7 @@
 	tool = nvimdiff
 [mergetool]
 	keepBackup = false
+	prompt = true
 [pull]
     ff = only
 [push]

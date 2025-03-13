@@ -12,6 +12,7 @@ vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<CR>")
 vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua live_grep<CR>")
 vim.keymap.set("n", "<leader><leader>", "<cmd>FzfLua buffers<CR>")
 vim.keymap.set("n", "<leader>gf", "<cmd>FzfLua git_status<CR>")
+vim.keymap.set("n", "<leader>b", "<cmd>b#<CR>")
 -- mostly native fzf alternative commands
 -- vim.keymap.set("n", "<leader>ff", ":find <c-z>")
 -- vim.keymap.set("n", "<leader>fg", ":grep ")

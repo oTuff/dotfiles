@@ -1,7 +1,8 @@
 {
   config,
   pkgs,
-  # nixgl,
+  lib,
+  nixgl,
   ...
 }:
 
@@ -10,19 +11,15 @@
   home.homeDirectory = "/home/user";
   home.stateVersion = "24.11";
 
-  # nixGL.packages = nixgl.packages;
-
   home.packages = with pkgs; [
-    # firefox
-    # mupdf
-    # (config.lib.nixGL.wrap wezterm)
-
-    # dev tools
+    ripgrep
+    fd
+    pkgs.nixgl.nixGLIntel
+    foot
     git-credential-manager
     tmux
     fzf
     postgresql
-    # yazi
 
     # lsp and formatters
     nixd
@@ -67,9 +64,9 @@
       color-scheme = "prefer-dark";
       accent-color = "blue";
     };
-    "org/gnome/shell" = {
-      disable-user-extensions = true;
-    };
+    # "org/gnome/shell" = {
+    #   disable-user-extensions = true;
+    # };
     "org/gnome/desktop/peripherals/mouse" = {
       accel-profile = "flat";
     };
@@ -141,20 +138,27 @@
       nvim-web-devicons
       conform-nvim
       nvim-treesitter-context
-      nvim-autopairs
       nvim-ts-autotag
       nvim-ts-context-commentstring
+      nvim-autopairs
       nvim-highlight-colors
       blink-cmp
       markdown-preview-nvim
+      copilot-vim
+      fidget-nvim
     ];
 
     # use `home.file` instead for whole nvim folder
     # extraLuaConfig = ''${builtins.readFile ./nvim/init.lua}'';
   };
 
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "copilot.vim"
+    ];
+
   home.file = {
-    # ".bashrc".source = ./.bashrc;
     ".gitconfig".source = ./.gitconfig;
     ".inputrc".source = ./.inputrc;
     ".tmux.conf".source = ./.tmux.conf;
@@ -163,9 +167,6 @@
     # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
     # ".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   };
-  # home.sessionVariables = {
-  #   EDITOR = "nvim"; # is this needed?
-  # };
 
   programs.home-manager.enable = true;
 }

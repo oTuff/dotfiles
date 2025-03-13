@@ -5,6 +5,7 @@ require("lsp")
 require("treesitter")
 -- require("pandoc")
 
+require("fidget").setup()
 require("nvim-tree").setup({
 	update_focused_file = { enable = true },
 	view = { adaptive_size = true },
@@ -18,7 +19,7 @@ require("nvim-autopairs").setup()
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
-		nix = { "nixfmt" },
+		-- nix = { "nixfmt" },
 		javascript = { "prettier" },
 		typescript = { "prettier" },
 		javascriptreact = { "prettier" },
@@ -38,7 +39,7 @@ require("conform").setup({
 		["*"] = { "injected" }, -- for markdown code blocks
 	},
 	format_on_save = {
-		timeout_ms = 500,
+		timeout_ms = 800,
 		lsp_format = "fallback",
 	},
 })
@@ -71,27 +72,6 @@ require("gitsigns").setup({
 		end)
 	end,
 })
-
--- latex preview
--- vim.g.mkdp_browser = "flatpak run org.mozilla.firefox"
-vim.g.latex_pdf_viewer = "mupdf-x11"
-
--- Markdown preview with tatum
--- vim.api.nvim_create_user_command("Preview", function()
--- 	vim.fn.jobstart({ "brave-browser" }, { noremap = true, silent = true })
--- 	vim.fn.jobstart({ "tatum", "serve", "--open", vim.fn.expand("%") }, { noremap = true, silent = true })
--- end, {})
-
--- improved :find etc. function using fd.
--- if vim.version().minor == 11 then
--- 	function FindExprGlob()
--- 		return vim.tbl_filter(function(val)
--- 			return val:match(vim.v.fname)
--- 		end, vim.fn.systemlist("fd --type file --full-path"))
--- 	end
---
--- 	vim.o.findexpr = "v:lua.FindExprGlob()"
--- end
 
 -- native snippet support
 function vim.snippet.add(trigger, body, opts)
