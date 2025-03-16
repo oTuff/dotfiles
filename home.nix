@@ -168,7 +168,7 @@
     ".gitconfig".source = ./.gitconfig;
     ".inputrc".source = ./.inputrc;
     ".tmux.conf".source = ./.tmux.conf;
-    # ".config/nvim/".source = ./nvim;
+    ".config/nvim/".source = ./nvim;
     ".config/foot/foot.ini".source = ./foot.ini;
     # ".wezterm.lua/".source = ./.wezterm.lua;
     # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
