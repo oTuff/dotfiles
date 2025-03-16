@@ -24,12 +24,13 @@ vim.opt.spell = true
 vim.opt.spelloptions = "camel"
 vim.opt.spellsuggest = "best,5"
 vim.opt.completeopt = "menuone,noinsert" -- for autocompletion
+vim.opt.splitright = true
+vim.opt.diffopt:append("vertical,linematch:60")
 -- vim.opt.shortmess = "OlToFcCT" -- not needed for 0.11 completion
 -- vim.opt.complete:append("f")
 -- vim.opt.wildmode = "longest:full,full"
 -- vim.opt.wildignorecase = true
 -- vim.opt.pumheight = 10
-vim.opt.splitright = true
 -- vim.opt.splitbelow = true
 -- vim.opt.inccommand = "split"
 -- vim.opt.textwidth = 80

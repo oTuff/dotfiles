@@ -1,6 +1,8 @@
 {
   config,
   pkgs,
+  lib,
+  nixgl,
   ...
 }:
 
@@ -11,14 +13,14 @@
 
   home.packages = with pkgs; [
     foot
-    tmux
     ripgrep
     fd
-    tree-sitter
+    pkgs.nixgl.nixGLIntel
     git-credential-manager
+    tmux
+    tree-sitter
     fzf
     postgresql
-    yazi
 
     # lsp and formatters
     nixd
@@ -142,20 +144,27 @@
       nvim-web-devicons
       conform-nvim
       nvim-treesitter-context
-      nvim-autopairs
       nvim-ts-autotag
       nvim-ts-context-commentstring
+      nvim-autopairs
       nvim-highlight-colors
       blink-cmp
       markdown-preview-nvim
+      copilot-vim
+      fidget-nvim
     ];
 
     # use `home.file` instead for whole nvim folder
     # extraLuaConfig = ''${builtins.readFile ./nvim/init.lua}'';
   };
 
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "copilot.vim"
+    ];
+
   home.file = {
-    # ".bashrc".source = ./.bashrc;
     ".gitconfig".source = ./.gitconfig;
     ".inputrc".source = ./.inputrc;
     ".tmux.conf".source = ./.tmux.conf;
@@ -165,9 +174,6 @@
     # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
     # ".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   };
-  # home.sessionVariables = {
-  #   EDITOR = "nvim"; # is this needed?
-  # };
 
   programs.home-manager.enable = true;
 }
