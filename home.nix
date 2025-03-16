@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  # nixgl,
   ...
 }:
 
@@ -10,19 +9,16 @@
   home.homeDirectory = "/home/user";
   home.stateVersion = "24.11";
 
-  # nixGL.packages = nixgl.packages;
-
   home.packages = with pkgs; [
-    # firefox
-    # mupdf
-    # (config.lib.nixGL.wrap wezterm)
-
-    # dev tools
-    git-credential-manager
+    foot
     tmux
+    ripgrep
+    fd
+    tree-sitter
+    git-credential-manager
     fzf
     postgresql
-    # yazi
+    yazi
 
     # lsp and formatters
     nixd
@@ -43,7 +39,7 @@
     pylyzer
     ruff
     go
-    # gopls
+    gopls
     rust-analyzer
     rustfmt
     deno
@@ -67,9 +63,9 @@
       color-scheme = "prefer-dark";
       accent-color = "blue";
     };
-    "org/gnome/shell" = {
-      disable-user-extensions = true;
-    };
+    # "org/gnome/shell" = {
+    #   disable-user-extensions = true;
+    # };
     "org/gnome/desktop/peripherals/mouse" = {
       accel-profile = "flat";
     };
@@ -102,12 +98,15 @@
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       binding = "<Super>Return";
-      command = "flatpak run org.wezfurlong.wezterm";
+      command = "foot";
       name = "open-terminal";
     };
   };
 
-  programs.bash.enable = true;
+  programs.bash = {
+    enable = true;
+    bashrcExtra = "source /etc/bashrc";
+  };
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;
@@ -132,6 +131,8 @@
     vimAlias = true;
 
     plugins = with pkgs.vimPlugins; [
+    # old
+      llm-nvim
       nvim-lspconfig
       nvim-treesitter.withAllGrammars
       gitsigns-nvim
@@ -158,7 +159,8 @@
     ".gitconfig".source = ./.gitconfig;
     ".inputrc".source = ./.inputrc;
     ".tmux.conf".source = ./.tmux.conf;
-    ".config/nvim/".source = ./nvim;
+    # ".config/nvim/".source = ./nvim;
+    ".config/foot/foot.ini".source = ./foot.ini;
     # ".wezterm.lua/".source = ./.wezterm.lua;
     # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
     # ".config/alacritty/alacritty.toml".source = ./alacritty.toml;

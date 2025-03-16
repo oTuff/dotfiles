@@ -5,20 +5,19 @@ require("lsp")
 require("treesitter")
 -- require("pandoc")
 
-require("nvim-tree").setup({
-	update_focused_file = { enable = true },
-	view = { adaptive_size = true },
-	git = { ignore = false },
-})
+-- require("nvim-tree").setup({
+-- 	update_focused_file = { enable = true },
+-- 	view = { adaptive_size = true },
+-- 	git = { ignore = false },
+-- })
 
-require("oil").setup({ view_options = { show_hidden = true } })
+-- require("oil").setup({ view_options = { show_hidden = true } })
 
 require("nvim-autopairs").setup()
 
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
-		nix = { "nixfmt" },
 		javascript = { "prettier" },
 		typescript = { "prettier" },
 		javascriptreact = { "prettier" },
@@ -33,6 +32,7 @@ require("conform").setup({
 		markdown = { "deno_fmt" },
 		sql = { "pg_format", lsp_format = "never" },
 		-- below mostly for markdown code block formatting
+		nix = { "nixfmt" },
 		go = { "goimports", "gofmt" },
 		python = { "ruff_format" },
 		["*"] = { "injected" }, -- for markdown code blocks
@@ -74,7 +74,7 @@ require("gitsigns").setup({
 
 -- latex preview
 -- vim.g.mkdp_browser = "flatpak run org.mozilla.firefox"
-vim.g.latex_pdf_viewer = "mupdf-x11"
+-- vim.g.latex_pdf_viewer = "mupdf-x11"
 
 -- Markdown preview with tatum
 -- vim.api.nvim_create_user_command("Preview", function()
