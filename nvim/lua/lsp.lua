@@ -108,8 +108,16 @@ local servers = {
 	bashls = {},
 	marksman = {},
 	typos_lsp = { init_options = { diagnosticSeverity = "Info" } },
-	harper_ls = {
-		filetypes = { "tex", "gitcommit" },
+	harper_ls = { -- doesn't even work with latex disappointing
+		filetypes = { "gitcommit" },
+	},
+	ltex = {},
+	texlab = {
+		settings = {
+			texlab = {
+				build = { onSave = true },
+			},
+		},
 	},
 }
 

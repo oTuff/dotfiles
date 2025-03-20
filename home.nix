@@ -22,6 +22,11 @@
     fzf
     postgresql
 
+    # ltex stuff
+    texliveMedium
+    pandoc
+    zathura
+
     # lsp and formatters
     nixd
     nixfmt-rfc-style
@@ -34,6 +39,8 @@
     taplo
     typos-lsp
     harper
+    ltex-ls
+    texlab
 
     docker-compose-language-service
     docker-ls
@@ -133,7 +140,6 @@
     vimAlias = true;
 
     plugins = with pkgs.vimPlugins; [
-    # old
       llm-nvim
       nvim-lspconfig
       nvim-treesitter.withAllGrammars
