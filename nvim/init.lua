@@ -3,38 +3,39 @@ require("keymap")
 require("autocmd")
 require("lsp")
 require("treesitter")
+require("myai")
 -- require("pandoc")
 
-require("fidget").setup()
+-- require("fidget").setup()
 require("nvim-tree").setup({
 	update_focused_file = { enable = true },
 	view = { adaptive_size = true },
 	git = { ignore = false },
 })
 
--- require("oil").setup({ view_options = { show_hidden = true } })
+require("oil").setup({ view_options = { show_hidden = true } })
 
-require("nvim-autopairs").setup()
+-- require("nvim-autopairs").setup()
 
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
-		javascript = { "prettier" },
-		typescript = { "prettier" },
-		javascriptreact = { "prettier" },
-		typescriptreact = { "prettier" },
-		css = { "prettier" },
-		html = { "prettier" },
-		svelte = { "prettier" },
-		graphql = { "prettier" },
-		-- json = { "prettier" }, -- json lsp will respect the editors tabstop setting
-		-- yaml = { "prettier" }, -- yaml lsp have inbuild formatter
-		-- toml = { "taplo" },
+		javascript = { "deno_fmt" },
+		typescript = { "deno_fmt" },
+		javascriptreact = { "deno_fmt" },
+		typescriptreact = { "deno_fmt" },
+		css = { "deno_fmt" },
+		html = { "deno_fmt" },
+		svelte = { "deno_fmt" },
+		graphql = { "deno_fmt" },
+		json = { "deno_fmt" }, -- json lsp will respect the editors tabstop setting
+		-- yaml = { "deno_fmt" }, -- yaml lsp have inbuild formatter
 		markdown = { "deno_fmt" },
 		sql = { "pg_format", lsp_format = "never" },
 		-- below mostly for markdown code block formatting
 		nix = { "nixfmt" },
 		go = { "goimports", "gofmt" },
+		toml = { "taplo" },
 		python = { "ruff_format" },
 		["*"] = { "injected" }, -- for markdown code blocks
 	},

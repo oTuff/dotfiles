@@ -23,8 +23,9 @@
     postgresql
 
     # ltex stuff
-    texliveMedium
+    texliveFull
     pandoc
+    haskellPackages.pandoc-crossref
     zathura
 
     # lsp and formatters
@@ -41,11 +42,15 @@
     harper
     ltex-ls
     texlab
+    emmet-ls
+    nodejs
+    emmet-language-server
 
     docker-compose-language-service
     docker-ls
     ansible-language-server
     pylyzer
+    basedpyright
     ruff
     go
     gopls
@@ -65,6 +70,25 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+
+  # fonts.fontconfig.enable = true;
+  #
+  # # GTK configuration
+  # gtk = {
+  #   enable = true;
+  #   font = {
+  #     name = "DejaVu Sans";
+  #     size = 11;
+  #   };
+  #   iconTheme = {
+  #     name = "Papirus-Dark";
+  #     package = pkgs.papirus-icon-theme;
+  #   };
+  #   theme = {
+  #     name = "Adwaita-dark";
+  #     package = pkgs.adwaita-icon-theme;
+  #   };
+  # };
 
   # Gnome settings
   dconf.settings = {
@@ -140,35 +164,39 @@
     vimAlias = true;
 
     plugins = with pkgs.vimPlugins; [
-      llm-nvim
       nvim-lspconfig
       nvim-treesitter.withAllGrammars
       gitsigns-nvim
       fzf-lua
-      oil-nvim
       nvim-tree-lua
       nvim-web-devicons
+      oil-nvim
       conform-nvim
       nvim-treesitter-context
       nvim-ts-autotag
       nvim-ts-context-commentstring
-      nvim-autopairs
       nvim-highlight-colors
-      blink-cmp
       markdown-preview-nvim
-      copilot-vim
-      fidget-nvim
+      minuet-ai-nvim
+      # blink-cmp
+      # nvim-autopairs
+      # copilot-vim
+      # fidget-nvim
     ];
 
     # use `home.file` instead for whole nvim folder
     # extraLuaConfig = ''${builtins.readFile ./nvim/init.lua}'';
   };
 
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "copilot.vim"
-    ];
+  # nixpkgs.config.allowUnfreePredicate =
+  #   pkg:
+  #   builtins.elem (lib.getName pkg) [
+  #     "copilot.vim"
+  #   ];
+
+  home.shellAliases = {
+    copilot = "ramalama serve ollama://qwen2.5-coder:1.5b -p 8012";
+  };
 
   home.file = {
     ".gitconfig".source = ./.gitconfig;
@@ -180,6 +208,12 @@
     # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
     # ".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   };
+
+  # xdg.configFile."nvim" = {
+  #   source = ./nvim;
+  #   recursive = true; # Make sure this is set to true
+  #   force = true;
+  # };
 
   programs.home-manager.enable = true;
 }

@@ -1,40 +1,48 @@
 local lspconfig = require("lspconfig")
 local servers = {
-	nixd = { -- using nixfmt seems to be the default
+	nixd = {},
+	lua_ls = {
+		settings = { Lua = { diagnostics = { globals = { "vim" } } } },
+	},
+	basedpyright = {
+		settings = {
+			basedpyright = { disableOrganizeImports = true },
+			python = { analysis = { ignore = { "*" } } },
+		},
+	},
+	ruff = {},
+	ts_ls = {
+		root_dir = lspconfig.util.root_pattern("package.json"),
+		single_file_support = false,
+	},
+	denols = {
+		root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+	},
+	eslint = {},
+	jsonls = {},
+	html = {
 		-- settings = {
-		-- 	nixd = {
-		-- 		formatting = {
-		-- 			command = { "nixfmt" },
+		-- 	html = {
+		-- 		completion = {
+		-- 			attributeDefaultValue = "doublequotes",
+		-- 			triggerCharacters = { '"', "'", "<" }, -- Exclude ">" from trigger characters
 		-- 		},
 		-- 	},
 		-- },
 	},
-	lua_ls = {
-		settings = { Lua = { diagnostics = { globals = { "vim" } } } },
-	},
-	pylyzer = {},
-	-- basedpyright = {
-	-- 	settings = {
-	-- 		basedpyright = { disableOrganizeImports = true },
-	-- 		python = { analysis = { ignore = { "*" } } },
+	cssls = {},
+	emmet_language_server = {},
+	-- 	init_options = {
+	-- 		-- showSuggestionsAsSnippets = true,
+	-- 		-- showAbbreviationSuggestions = false,
+	-- 		-- showExpandedAbbreviation = "newer",
 	-- 	},
 	-- },
-	ruff = {},
-	ts_ls = {
-		-- root_dir = lspconfig.util.root_pattern("package.json"),
-		-- single_file_support = false,
-	},
-	-- denols = {
-	-- 	root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
-	-- },
-	eslint = {},
-	jsonls = {},
-	html = {},
-	cssls = {},
+	-- emmet_ls = {},
 	tailwindcss = {},
 	elixirls = {},
 	gopls = {
-		filetypes = { "go", "gomod", "gowork", "gotmpl", "html" },
+		-- filetypes = { "go", "gomod", "gowork", "gotmpl", "html" },
 
 		settings = {
 			gopls = {
@@ -102,114 +110,113 @@ local servers = {
 			},
 		},
 	},
+	taplo = {},
 	-- dockerls = {},
 	-- docker_compose_language_service = {},
 	-- ansiblels = {},
 	bashls = {},
 	marksman = {},
-	typos_lsp = { init_options = { diagnosticSeverity = "Info" } },
+	-- typos_lsp = { init_options = { diagnosticSeverity = "Info" } },
 	harper_ls = { -- doesn't even work with latex disappointing
 		filetypes = { "gitcommit" },
 	},
-	ltex = {},
+	-- ltex = {},
 	texlab = {
-		settings = {
-			texlab = {
-				build = { onSave = true },
-			},
-		},
+		-- settings = {
+		-- 	texlab = {
+		-- 		build = { onSave = true },
+		-- 	},
+		-- },
 	},
 }
 
 -- for json, html and css lsps
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 for server_name, server_config in pairs(servers) do
-	server_config.capabilities = capabilities
+	-- server_config.capabilities = capabilities
 
 	lspconfig[server_name].setup(server_config)
 end
 
-require("blink-cmp").setup({ cmdline = { enabled = false } })
+-- -- Enable and configure each server
+-- for server_name, server_config in pairs(servers) do
+--     -- Enable the server
+--     vim.lsp.enable(server_name)
+--
+--     -- Configure the server
+--     vim.lsp.config(server_name, vim.tbl_deep_extend("force", {
+--         capabilities = capabilities,
+--     }, server_config))
+-- end
+
+-- require("blink-cmp").setup({ cmdline = { enabled = false } })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 	callback = function(args)
-		if vim.lsp.inlay_hint then
-			-- vim.lsp.inlay_hint.enable(true, { 0 })
-			vim.keymap.set("n", "<leader>ih", function()
-				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-			end)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		-- if client.supports_method then
+		-- 	-- vim.lsp.inlay_hint.enable(true, { 0 })
+		-- 	vim.keymap.set("n", "<leader>ih", function()
+		-- 		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+		-- 	end)
+		-- end
+		--
+		-- if client.name == "emmet_language_server" then
+		-- 	-- Set Emmet to have highest priority for completions
+		-- 	client.server_capabilities.completionProvider.completionPriority = 100
+		-- elseif client.name == "html" then
+		-- 	-- Set HTML to have lower priority
+		-- 	client.server_capabilities.completionProvider.completionPriority = 10
+		-- end
 
-			-- local client = vim.lsp.get_client_by_id(args.data.client_id)
-			-- if client.supports_method("textDocument/completion") then
-			-- 	if vim.version().minor == 11 then
-			-- 		vim.keymap.set("i", "<C-space>", vim.lsp.completion.trigger)
-			--
-			-- 		-- Enable Neovim 0.11 native autocomplete
-			-- 		-- vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-			-- 		vim.lsp.completion.enable(true, client.id, args.buf)
-			-- 	end
-			--
-			-- 	-- Improved autocompletion
-			-- 	vim.api.nvim_create_autocmd("InsertCharPre", {
-			-- 		pattern = "*",
-			-- 		callback = function()
-			-- 			vim.schedule(function()
-			-- 				local col = vim.fn.col(".") - 1
-			-- 				if col > 0 then
-			-- 					local prev_char = vim.fn.getline("."):sub(col, col)
-			-- 					if
-			-- 						vim.fn.pumvisible() == 0
-			-- 						and vim.bo.omnifunc ~= ""
-			-- 						and (prev_char:match("[%w._]") or prev_char == "-")
-			-- 					then
-			-- 						if vim.version().minor == 11 then
-			-- 							vim.lsp.completion.trigger()
-			-- 							-- vim.lsp.buf.signature_help()
-			-- 						else
-			-- 							vim.api.nvim_feedkeys(
-			-- 								vim.api.nvim_replace_termcodes("<C-x><C-o>", true, false, true),
-			-- 								"n",
-			-- 								true
-			-- 							)
-			-- 						end
-			-- 					end
-			-- 				end
-			-- 			end, 300)
-			-- 		end,
-			-- 	})
-			-- end
-			local client = vim.lsp.get_client_by_id(args.data.client_id)
-			if
-				client
-				and client.supports_method(
-					vim.lsp.protocol.Methods.textDocument_documentHighlight,
-					{ bufnr = args.buf }
-				)
-			then
-				local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
-				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-					buffer = args.buf,
-					group = highlight_augroup,
-					callback = vim.lsp.buf.document_highlight,
-				})
-
-				vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-					buffer = args.buf,
-					group = highlight_augroup,
-					callback = vim.lsp.buf.clear_references,
-				})
-
-				vim.api.nvim_create_autocmd("LspDetach", {
-					group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
-					callback = function(event2)
-						vim.lsp.buf.clear_references()
-						vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
-					end,
-				})
-			end
+		if client.supports_method("textDocument/completion") then
+			vim.keymap.set("i", "<C-space>", vim.lsp.completion.get)
+			-- client.server_capabilities.completionProvider.triggerCharacters =
+			-- vim.split(".!>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTUVWXYZ", "", true)
+			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 		end
+
+		-- Autoformatting
+		-- 			if client:supports_method('textDocument/formatting') then
+		-- 	vim.api.nvim_create_autocmd('BufWritePre', {
+		-- 		buffer = args.buf,
+		-- 		callback = function()
+		-- 			vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+		-- 		end,
+		-- 	})
+		-- end
+
+		-- auto highlight current item
+		-- if
+		-- 	client
+		-- 	and client.supports_method(
+		-- 		vim.lsp.protocol.Methods.textDocument_documentHighlight,
+		-- 		{ bufnr = args.buf }
+		-- 	)
+		-- then
+		-- 	local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+		-- 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+		-- 		buffer = args.buf,
+		-- 		group = highlight_augroup,
+		-- 		callback = vim.lsp.buf.document_highlight,
+		-- 	})
+		--
+		-- 	vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+		-- 		buffer = args.buf,
+		-- 		group = highlight_augroup,
+		-- 		callback = vim.lsp.buf.clear_references,
+		-- 	})
+		--
+		-- 	vim.api.nvim_create_autocmd("LspDetach", {
+		-- 		group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+		-- 		callback = function(event2)
+		-- 			vim.lsp.buf.clear_references()
+		-- 			vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+		-- 		end,
+		-- 	})
+		-- end
 	end,
 })
