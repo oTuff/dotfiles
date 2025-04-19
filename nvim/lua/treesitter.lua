@@ -2,12 +2,15 @@ require("nvim-treesitter.configs").setup({
 	indent = { enable = true, disable = { "yaml" } },
 	highlight = {
 		enable = true,
-		disable = { "csv" },
+		-- disable = { "csv" },
 		additional_vim_regex_highlighting = true,
 	},
-	-- incremental_selection = {
-	-- 	enable = true,
-	-- },
+	incremental_selection = {
+		enable = true,
+	},
+	injection_language = {
+		enable = true,
+	},
 	-- refactor = {
 	-- 	-- highlight_current_scope = { enable = true },
 	-- 	highlight_definitions = {

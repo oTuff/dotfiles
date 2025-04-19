@@ -12,40 +12,43 @@ local servers = {
 	},
 	ruff = {},
 	ts_ls = {
-		root_dir = lspconfig.util.root_pattern("package.json"),
-		single_file_support = false,
+		-- root_dir = lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", "package.json"),
+		-- single_file_support = false,
+		filetypes = {
+			"javascript",
+			"javascriptreact",
+			"javascript.jsx",
+			"typescript",
+			"typescriptreact",
+			"typescript.tsx",
+			"html",
+		},
 	},
 	denols = {
 		root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+		-- filetypes = {
+		-- 	"javascript",
+		-- 	"javascriptreact",
+		-- 	"javascript.jsx",
+		-- 	"typescript",
+		-- 	"typescriptreact",
+		-- 	"html",
+		-- 	"typescript.tsx",
+		-- },
 	},
 	eslint = {},
 	jsonls = {},
-	html = {
-		-- settings = {
-		-- 	html = {
-		-- 		completion = {
-		-- 			attributeDefaultValue = "doublequotes",
-		-- 			triggerCharacters = { '"', "'", "<" }, -- Exclude ">" from trigger characters
-		-- 		},
-		-- 	},
-		-- },
-	},
 	cssls = {},
-	emmet_language_server = {},
-	-- 	init_options = {
-	-- 		-- showSuggestionsAsSnippets = true,
-	-- 		-- showAbbreviationSuggestions = false,
-	-- 		-- showExpandedAbbreviation = "newer",
-	-- 	},
-	-- },
-	-- emmet_ls = {},
+	html = {},
+	-- emmet_language_server = {},
 	tailwindcss = {},
 	elixirls = {},
 	gopls = {
-		-- filetypes = { "go", "gomod", "gowork", "gotmpl", "html" },
-
+		filetypes = { "go", "gomod", "gowork", "gotmpl", "html" },
+		single_file_support = false,
 		settings = {
 			gopls = {
+				templateExtensions = { "gohtml" },
 				hints = {
 					assignVariableTypes = true,
 					compositeLiteralFields = true,
@@ -55,7 +58,6 @@ local servers = {
 					parameterNames = true,
 					rangeVariableTypes = true,
 				},
-				templateExtensions = { "html" },
 			},
 		},
 	},
@@ -64,9 +66,7 @@ local servers = {
 			["rust-analyzer"] = {
 				checkOnSave = {
 					command = "clippy",
-					-- enable = false,
 				},
-				-- diagnostics = { enable = false },
 			},
 		},
 	},
@@ -130,26 +130,33 @@ local servers = {
 	},
 }
 
--- for json, html and css lsps
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
-
 for server_name, server_config in pairs(servers) do
-	-- server_config.capabilities = capabilities
-
 	lspconfig[server_name].setup(server_config)
 end
 
--- -- Enable and configure each server
+-- emmet_language_server must start after html and gopls to avoid issues
+vim.defer_fn(function()
+	lspconfig.emmet_language_server.setup({})
+	-- vim.cmd("silent! e!")
+	vim.cmd("e!")
+end, 500)
+
+-- neovim 0.11
 -- for server_name, server_config in pairs(servers) do
---     -- Enable the server
---     vim.lsp.enable(server_name)
---
---     -- Configure the server
---     vim.lsp.config(server_name, vim.tbl_deep_extend("force", {
---         capabilities = capabilities,
---     }, server_config))
+-- 	vim.lsp.config(server_name, server_config)
+-- 	vim.lsp.enable(server_name)
 -- end
+
+-- Special handling for emmet_language_server
+-- vim.defer_fn(function()
+-- 	vim.lsp.enable("emmet_language_server")
+-- 	vim.cmd("e")
+-- end, 2000)
+
+-- vim.defer_fn(function()
+-- 	vim.lsp.enable("emmet_language_server")
+-- 	vim.lsp.config("emmet_language_server", {})
+-- end, 2000)
 
 -- require("blink-cmp").setup({ cmdline = { enabled = false } })
 
@@ -157,26 +164,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 	callback = function(args)
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		-- if client.supports_method then
-		-- 	-- vim.lsp.inlay_hint.enable(true, { 0 })
-		-- 	vim.keymap.set("n", "<leader>ih", function()
-		-- 		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-		-- 	end)
-		-- end
-		--
-		-- if client.name == "emmet_language_server" then
-		-- 	-- Set Emmet to have highest priority for completions
-		-- 	client.server_capabilities.completionProvider.completionPriority = 100
-		-- elseif client.name == "html" then
-		-- 	-- Set HTML to have lower priority
-		-- 	client.server_capabilities.completionProvider.completionPriority = 10
-		-- end
 
 		if client.supports_method("textDocument/completion") then
 			vim.keymap.set("i", "<C-space>", vim.lsp.completion.get)
-			-- client.server_capabilities.completionProvider.triggerCharacters =
-			-- vim.split(".!>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTUVWXYZ", "", true)
+			client.server_capabilities.completionProvider.triggerCharacters =
+				vim.split(".!>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTUVWXYZ", "", true)
 			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+		end
+
+		if client.server_capabilities.inlayHintProvider then
+			-- vim.lsp.inlay_hint.enable(true, { 0 })
+			vim.keymap.set("n", "<leader>ih", function()
+				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+			end)
 		end
 
 		-- Autoformatting
