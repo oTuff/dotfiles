@@ -29,7 +29,7 @@ and run
 home-manager switch -b backup --flake .
 ```
 
-Other stuff
+OLD Other stuff
 
 ```
 sudo rpm-ostree initramfs-etc --track=/etc/vconsole.conf
