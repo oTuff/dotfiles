@@ -277,7 +277,7 @@ local servers = {
 				local path = client.workspace_folders[1].name
 				if
 					path ~= vim.fn.stdpath("config")
-	and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+					and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
 				then
 					return
 				end
@@ -530,8 +530,7 @@ https://github.com/echasnovski/mini.files
 require("mini.icons").setup()
 require("mini.files").setup()
 
-vim.keymap.set("n", "<leader>e", 
-  "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0)) MiniFiles.reveal_cwd()<CR>")
+vim.keymap.set("n", "<leader>e", "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0)) MiniFiles.reveal_cwd()<CR>")
 ```
 
 **formatting** you can use a autocommand to use the lsp for formatting but for
