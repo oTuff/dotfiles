@@ -21,6 +21,7 @@
     tree-sitter
     fzf
     postgresql
+    aider-chat
 
     # ltex stuff
     texliveFull
@@ -34,13 +35,16 @@
     lua-language-server
     stylua
     bash-language-server
+    shellcheck
+    shfmt
     yaml-language-server
     marksman
     # pgformatter
     taplo
     typos-lsp
     harper
-    ltex-ls
+    # ltex-ls
+    ltex-ls-plus
     texlab
     emmet-ls
     nodejs
@@ -54,6 +58,7 @@
     ruff
     go
     gopls
+    gotools
     rust-analyzer
     rustfmt
     deno
@@ -168,20 +173,26 @@
       nvim-treesitter.withAllGrammars
       gitsigns-nvim
       fzf-lua
-      nvim-tree-lua
-      nvim-web-devicons
-      oil-nvim
+      mini-files
+      mini-icons
       conform-nvim
+      nvim-lint
+      # nvim-tree-lua
+      # nvim-web-devicons
+      # oil-nvim
       nvim-treesitter-context
       nvim-ts-autotag
-      nvim-ts-context-commentstring
+      nvim-autopairs
+
+      # nvim-ts-context-commentstring
       nvim-highlight-colors
       markdown-preview-nvim
       minuet-ai-nvim
-      # blink-cmp
-      # nvim-autopairs
+      blink-cmp
+      mini-completion
       # copilot-vim
       # fidget-nvim
+      csvview-nvim
     ];
 
     # use `home.file` instead for whole nvim folder
@@ -202,18 +213,12 @@
     ".gitconfig".source = ./.gitconfig;
     ".inputrc".source = ./.inputrc;
     ".tmux.conf".source = ./.tmux.conf;
-    ".config/nvim/".source = ./nvim;
+    ".config/nvim/".source = config.lib.file.mkOutOfStoreSymlink ~/dotfiles/nvim; # use impure
     ".config/foot/foot.ini".source = ./foot.ini;
     # ".wezterm.lua/".source = ./.wezterm.lua;
     # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
     # ".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   };
-
-  # xdg.configFile."nvim" = {
-  #   source = ./nvim;
-  #   recursive = true; # Make sure this is set to true
-  #   force = true;
-  # };
 
   programs.home-manager.enable = true;
 }

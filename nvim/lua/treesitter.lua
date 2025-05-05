@@ -1,60 +1,20 @@
 require("nvim-treesitter.configs").setup({
-	indent = { enable = true, disable = { "yaml" } },
+	indent = { enable = true },
+	-- indent = { enable = true, disable = { "yaml" } },
 	highlight = {
 		enable = true,
 		-- disable = { "csv" },
-		additional_vim_regex_highlighting = true,
+		-- additional_vim_regex_highlighting = true,
 	},
 	incremental_selection = {
 		enable = true,
+		keymaps = {
+			init_selection = "<CR>",
+			scope_incremental = "<CR>",
+			node_incremental = "<TAB>",
+			node_decremental = "<S-TAB>",
+		},
 	},
-	injection_language = {
-		enable = true,
-	},
-	-- refactor = {
-	-- 	-- highlight_current_scope = { enable = true },
-	-- 	highlight_definitions = {
-	-- 		enable = true,
-	-- 		clear_on_cursor_move = true,
-	-- 	},
-	-- },
-
-	-- treesitter context aware navigation
-	-- navigation = {
-	-- 	enable = true,
-	-- 	keymaps = {
-	-- 		goto_definition = "gd",
-	-- 		list_definitions = "gnD",
-	-- 		list_definitions_toc = "gO",
-	-- 		goto_next_usage = "*",
-	-- 		goto_previous_usage = "#",
-	-- 	},
-	-- },
-
-	-- kind of useless when you have lsp rename
-	-- smart_rename = {
-	-- 	enable = true,
-	-- 	-- Assign keymaps to false to disable them, e.g. `smart_rename = false`.
-	-- 	keymaps = {
-	-- 		smart_rename = "grr",
-	-- 	},
-	-- },
-	-- },
-	-- textobjects = {
-	-- 	select = {
-	-- 		enable = true,
-	--
-	-- 		-- Automatically jump forward to textobj, similar to targets.vim
-	-- 		lookahead = true,
-	-- 		keymaps = {
-	-- 			["af"] = "@function.outer",
-	-- 			["if"] = "@function.inner",
-	-- 			["ac"] = "@class.outer",
-	-- 			["ic"] = "@class.inner",
-	-- 			["as"] = "@local.scope",
-	-- 		},
-	-- 	},
-	-- },
 })
 
 require("treesitter-context").setup({
@@ -62,3 +22,13 @@ require("treesitter-context").setup({
 	multiline_threshold = 1,
 	trim_scope = "inner",
 })
+
+require("nvim-ts-autotag").setup()
+
+-- not needed anymore
+-- require("ts_context_commentstring").setup({ enable_autocmd = false })
+-- local get_option = vim.filetype.get_option
+-- vim.filetype.get_option = function(filetype, option)
+-- 	return option == "commentstring" and require("ts_context_commentstring.internal").calculate_commentstring()
+-- 		or get_option(filetype, option)
+-- end

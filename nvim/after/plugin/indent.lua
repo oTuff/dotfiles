@@ -1,0 +1,22 @@
+-- vim.opt.list = true
+-- vim.opt.listchars = {
+-- 	-- tab = "▏ ",
+-- 	-- leadmultispace = "▏ ",
+-- 	trail = "·",
+-- 	extends = "»",
+-- 	precedes = "«",
+-- }
+--
+-- vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
+-- 	group = vim.api.nvim_create_augroup("indent-char", { clear = true }),
+-- 	pattern = "*",
+-- 	callback = function()
+-- 		if vim.opt_local.expandtab == true then
+-- 			vim.opt_local.listchars:append({
+-- 				leadmultispace = "▏" .. string.rep(" ", vim.opt_local.shiftwidth - 1),
+-- 			})
+-- 		else
+-- 			vim.opt_local.listchars:append({ tab = "▏ " })
+-- 		end
+-- 	end,
+-- })

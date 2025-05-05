@@ -5,17 +5,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- change the listchar for leadmultispace for filetypes with shiftwidth of 4.
-vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
-	group = vim.api.nvim_create_augroup("LeadMultiSpaceListChar", { clear = true }),
-	pattern = "*",
-	callback = function()
-		if vim.bo.shiftwidth == 4 then
-			vim.opt_local.listchars:append({ leadmultispace = "▏   " })
-		end
-	end,
-})
-
 -- set ansible filetype
 -- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "filetype" }, {
 -- 	pattern = {
@@ -27,7 +16,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
 -- 		"*/Ansible/*.yaml",
 -- 	},
 -- 	callback = function()
--- 		vim.bo.filetype = "yaml.ansible"
+-- 		vim.opt_local.filetype = "yaml.ansible"
 -- 	end,
 -- })
-
