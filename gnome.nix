@@ -1,11 +1,12 @@
 {
   "org/gnome/desktop/interface" = {
+    gtk-theme = "Adwaita";
     color-scheme = "prefer-dark";
     accent-color = "blue";
   };
-  "org/gnome/shell" = {
-    disable-user-extensions = true;
-  };
+  # "org/gnome/shell" = {
+  #   disable-user-extensions = true;
+  # };
   "org/gnome/desktop/peripherals/mouse" = {
     accel-profile = "flat";
   };
