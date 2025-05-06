@@ -13,15 +13,15 @@
 
   home.packages = with pkgs; [
     foot
+    tmux
     ripgrep
     fd
-    pkgs.nixgl.nixGLIntel
-    git-credential-manager
-    tmux
-    tree-sitter
     fzf
+    git-credential-manager
+    tree-sitter
     postgresql
     aider-chat
+    pkgs.nixgl.nixGLIntel
 
     # ltex stuff
     texliveFull
@@ -34,26 +34,7 @@
     nixfmt-rfc-style
     lua-language-server
     stylua
-    bash-language-server
-    shellcheck
-    shfmt
-    yaml-language-server
-    marksman
-    # pgformatter
-    taplo
-    typos-lsp
-    harper
-    # ltex-ls
-    ltex-ls-plus
-    texlab
-    emmet-ls
-    nodejs
-    emmet-language-server
-
-    docker-compose-language-service
-    docker-ls
-    ansible-language-server
-    pylyzer
+    # pylyzer
     basedpyright
     ruff
     go
@@ -66,81 +47,44 @@
     vscode-langservers-extracted
     tailwindcss-language-server
     eslint
+    nodejs
     nodePackages.prettier
+    bash-language-server
+    shellcheck
+    shfmt
+    yaml-language-server
+    taplo
+    marksman
+    typos-lsp
+    harper
+    # ltex-ls
+    ltex-ls-plus
+    texlab
+    emmet-language-server
+    ansible-language-server
     sqls
+    # pgformatter
     # postgres-lsp
+    # docker-compose-language-service
+    # docker-ls
 
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    # (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-
   # fonts.fontconfig.enable = true;
-  #
-  # # GTK configuration
-  # gtk = {
-  #   enable = true;
-  #   font = {
-  #     name = "DejaVu Sans";
-  #     size = 11;
-  #   };
-  #   iconTheme = {
-  #     name = "Papirus-Dark";
-  #     package = pkgs.papirus-icon-theme;
-  #   };
-  #   theme = {
-  #     name = "Adwaita-dark";
-  #     package = pkgs.adwaita-icon-theme;
-  #   };
-  # };
+
+  # nixpkgs.config.allowUnfreePredicate =
+  #   pkg:
+  #   builtins.elem (lib.getName pkg) [
+  #     "copilot.vim"
+  #   ];
 
   # Gnome settings
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-      accent-color = "blue";
-    };
-    # "org/gnome/shell" = {
-    #   disable-user-extensions = true;
-    # };
-    "org/gnome/desktop/peripherals/mouse" = {
-      accel-profile = "flat";
-    };
-    "org/gnome/mutter" = {
-      dynamic-workspaces = false;
-    };
-    "org/gnome/shell/keybindings" = {
-      switch-to-application-1 = [ ];
-      switch-to-application-2 = [ ];
-      switch-to-application-3 = [ ];
-      switch-to-application-4 = [ ];
-    };
-    "org/gnome/desktop/wm/keybindings" = {
-      close = [ "<Shift><Super>q" ];
-      toggle-fullscreen = [ "<Super>f" ];
-      switch-to-workspace-1 = [ "<Super>1" ];
-      switch-to-workspace-2 = [ "<Super>2" ];
-      switch-to-workspace-3 = [ "<Super>3" ];
-      switch-to-workspace-4 = [ "<Super>4" ];
-      move-to-workspace-1 = [ "<Shift><Super>1" ];
-      move-to-workspace-2 = [ "<Shift><Super>2" ];
-      move-to-workspace-3 = [ "<Shift><Super>3" ];
-      move-to-workspace-4 = [ "<Shift><Super>4" ];
-    };
-    "org/gnome/settings-daemon/plugins/media-keys" = {
-      screensaver = [ "<Super>i" ];
-      custom-keybindings = [
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
-      ];
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-      binding = "<Super>Return";
-      command = "foot";
-      name = "open-terminal";
-    };
-  };
+  dconf.settings = import ./gnome.nix;
 
+  # Bash etc.
   programs.bash = {
     enable = true;
     bashrcExtra = "source /etc/bashrc";
@@ -156,7 +100,6 @@
   programs.git = {
     enable = true;
     lfs.enable = true;
-    # package = pkgs.gitFull;
     extraConfig = {
       credential.helper = "manager";
     };
@@ -183,13 +126,12 @@
       nvim-treesitter-context
       nvim-ts-autotag
       nvim-autopairs
-
       # nvim-ts-context-commentstring
       nvim-highlight-colors
       markdown-preview-nvim
       minuet-ai-nvim
-      blink-cmp
-      mini-completion
+      # blink-cmp
+      # mini-completion
       # copilot-vim
       # fidget-nvim
       csvview-nvim
@@ -198,12 +140,6 @@
     # use `home.file` instead for whole nvim folder
     # extraLuaConfig = ''${builtins.readFile ./nvim/init.lua}'';
   };
-
-  # nixpkgs.config.allowUnfreePredicate =
-  #   pkg:
-  #   builtins.elem (lib.getName pkg) [
-  #     "copilot.vim"
-  #   ];
 
   home.shellAliases = {
     copilot = "ramalama serve ollama://qwen2.5-coder:1.5b -p 8012";
