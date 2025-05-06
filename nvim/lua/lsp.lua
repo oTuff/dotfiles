@@ -103,13 +103,11 @@ local servers = {
 	},
 	eslint = {},
 	jsonls = {},
-	cssls = {
-		-- filetypes = { "css", "scss", "less", "html" },
-	},
+	cssls = {},
 	html = {},
 	emmet_language_server = {},
 	tailwindcss = {},
-	elixirls = {},
+	-- elixirls = {},
 	-- sqls = {
 	-- 	settings = {
 	-- 		sqls = {
@@ -148,19 +146,21 @@ local servers = {
 	-- docker_compose_language_service = {},
 	-- ansiblels = {},
 	bashls = {},
+	-- Writing
 	marksman = {},
-	typos_lsp = { init_options = { diagnosticSeverity = "Info" } },
-	harper_ls = { filetypes = { "gitcommit", "markdown" } },
-	ltex_plus = {
-		filetypes = { "bib", "tex" }, -- harper don't work on these file types
-		-- settings = { ltex = { language = "da-DK" } },
-	},
 	texlab = {
 		-- settings = {
 		-- 	texlab = {
 		-- 		build = { onSave = true },
 		-- 	},
 		-- },
+	},
+	-- Spell checking
+	typos_lsp = { init_options = { diagnosticSeverity = "Info" } },
+	harper_ls = { filetypes = { "gitcommit", "markdown" } },
+	ltex_plus = {
+		filetypes = { "bib", "tex" }, -- harper don't work on these file types
+		-- settings = { ltex = { language = "da-DK" } },
 	},
 }
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
