@@ -111,31 +111,84 @@
     defaultEditor = true;
     vimAlias = true;
 
-    plugins = with pkgs.vimPlugins; [
-      nvim-lspconfig
-      nvim-treesitter.withAllGrammars
-      gitsigns-nvim
-      fzf-lua
-      mini-files
-      mini-icons
-      conform-nvim
-      nvim-lint
-      # nvim-tree-lua
-      # nvim-web-devicons
-      # oil-nvim
-      nvim-treesitter-context
-      nvim-ts-autotag
-      nvim-autopairs
-      # nvim-ts-context-commentstring
-      nvim-highlight-colors
-      markdown-preview-nvim
-      minuet-ai-nvim
-      # blink-cmp
-      # mini-completion
-      # copilot-vim
-      # fidget-nvim
-      csvview-nvim
-    ];
+    plugins =
+      let
+        # https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#supported-languages
+        nvim-treesitter-with-plugins = pkgs.vimPlugins.nvim-treesitter.withPlugins (
+          treesitter-plugins: with treesitter-plugins; [
+            bash
+            bibtex
+            c
+            comment
+            cpp
+            css
+            csv
+            # diff
+            # dockerfile
+            # editorconfig
+            # elixir
+            # git_config
+            # git_rebase
+            # gitattributes
+            # gitcommit
+            # gitignore
+            go
+            # gomod
+            # gosum
+            gotmpl
+            # gowork
+            html
+            # http
+            # ini
+            javascript
+            jsdoc
+            json
+            # jsonc
+            latex
+            # llvm
+            lua
+            luadoc
+            luap
+            # make
+            markdown
+            markdown_inline
+            nix
+            python
+            # readline
+            regex
+            ron
+            rust
+            sql
+            terraform
+            # tmux
+            toml
+            tsx
+            typescript
+            vim
+            vimdoc
+            xml
+            yaml
+          ]
+        );
+      in
+      with pkgs.vimPlugins;
+      [
+        # nvim-treesitter.withAllGrammars
+        nvim-treesitter-with-plugins
+        nvim-lspconfig
+        gitsigns-nvim
+        fzf-lua
+        mini-files
+        mini-icons
+        conform-nvim
+        nvim-treesitter-context
+        nvim-ts-autotag
+        nvim-autopairs
+        csvview-nvim
+        minuet-ai-nvim
+        # nvim-lint
+        # nvim-highlight-colors
+      ];
 
     # use `home.file` instead for whole nvim folder
     # extraLuaConfig = ''${builtins.readFile ./nvim/init.lua}'';
