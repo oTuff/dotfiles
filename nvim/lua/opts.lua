@@ -24,14 +24,12 @@ vim.opt.diffopt:append("vertical,linematch:60")
 -- vim.opt.splitright = true
 -- vim.opt.splitbelow = true
 -- vim.opt.inccommand = "split"
--- vim.opt.textwidth = 80
+-- vim.opt.breakindent = true
 
-vim.opt.breakindent = true
-
--- make comments italic while keeping the color the same as default
+-- Italic comments while keeping the default color
 vim.api.nvim_set_hl(0, "Comment", { italic = true, fg = "NvimLightGrey4" })
 
 -- Folding
-vim.wo.foldmethod = "expr"
-vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false -- disable folding by default

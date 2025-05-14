@@ -1,11 +1,6 @@
 require("nvim-treesitter.configs").setup({
 	indent = { enable = true },
-	-- indent = { enable = true, disable = { "yaml" } },
-	highlight = {
-		enable = true,
-		-- disable = { "csv" },
-		-- additional_vim_regex_highlighting = true,
-	},
+	highlight = { enable = true },
 	incremental_selection = {
 		enable = true,
 		keymaps = {
@@ -25,10 +20,12 @@ require("treesitter-context").setup({
 
 require("nvim-ts-autotag").setup()
 
--- not needed anymore
--- require("ts_context_commentstring").setup({ enable_autocmd = false })
--- local get_option = vim.filetype.get_option
--- vim.filetype.get_option = function(filetype, option)
--- 	return option == "commentstring" and require("ts_context_commentstring.internal").calculate_commentstring()
--- 		or get_option(filetype, option)
--- end
+-- Inject gotmpl treesitter in html
+vim.treesitter.query.set(
+	"html",
+	"injections",
+	[[
+  ((text) @injection.content
+   (#set! injection.language "gotmpl"))
+]]
+)

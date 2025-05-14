@@ -57,56 +57,50 @@ local servers = {
 			},
 		},
 	},
-	basedpyright = {
+	pyright = {
 		settings = {
-			basedpyright = { disableOrganizeImports = true },
+			pyright = {
+				disableOrganizeImports = true,
+				-- typeCheckingMode = "standard",
+			},
 			python = { analysis = { ignore = { "*" } } },
 		},
 	},
 	ruff = {},
-	ts_ls = {
-		-- init_options = {
-		-- 	hostInfo = "neovim",
-		-- 	-- Enable support for JavaScript language injections
-		-- 	plugins = {
-		-- 		{
-		-- 			name = "typescript-lit-html",
-		-- 			location = "npm:typescript-lit-html-plugin",
-		-- 			-- Or locally installed:
-		-- 			-- location = "/path/to/typescript-lit-html-plugin",
-		-- 		},
-		-- 	},
-		-- },
-		root_dir = lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", "package.json"),
-		single_file_support = false,
-		filetypes = {
-			"javascript",
-			"javascriptreact",
-			"javascript.jsx",
-			"typescript",
-			"typescriptreact",
-			"typescript.tsx",
-			"html", -- also enable for html
-		},
-	},
-	denols = {
-		root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
-		-- filetypes = {
-		-- 	"javascript",
-		-- 	"javascriptreact",
-		-- 	"javascript.jsx",
-		-- 	"typescript",
-		-- 	"typescriptreact",
-		-- 	"html",
-		-- 	"typescript.tsx",
-		-- },
-	},
-	eslint = {},
+	-- ts_ls = {
+	-- 	-- init_options = {
+	-- 	-- 	hostInfo = "neovim",
+	-- 	-- 	-- Enable support for JavaScript language injections
+	-- 	-- 	plugins = {
+	-- 	-- 		{
+	-- 	-- 			name = "typescript-lit-html",
+	-- 	-- 			location = "npm:typescript-lit-html-plugin",
+	-- 	-- 			-- Or locally installed:
+	-- 	-- 			-- location = "/path/to/typescript-lit-html-plugin",
+	-- 	-- 		},
+	-- 	-- 	},
+	-- 	-- },
+	-- 	root_dir = lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", "package.json"),
+	-- 	single_file_support = false,
+	-- 	filetypes = {
+	-- 		"javascript",
+	-- 		"javascriptreact",
+	-- 		"javascript.jsx",
+	-- 		"typescript",
+	-- 		"typescriptreact",
+	-- 		"typescript.tsx",
+	-- 		"html", -- also enable for html
+	-- 	},
+	-- },
+	denols = {},
+	-- 	root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+	-- },
+	-- eslint = {},
 	jsonls = {},
 	cssls = {},
 	html = {},
 	emmet_language_server = {},
-	tailwindcss = {},
+	-- tailwindcss = {},
 	-- elixirls = {},
 	-- sqls = {
 	-- 	settings = {
@@ -128,18 +122,18 @@ local servers = {
 	-- },
 	-- postgres_lsp = {},
 	yamlls = {
-		cmd = { "yaml-language-server", "--stdio" },
-		filetypes = { "yaml", "yaml.docker-compose", "yaml.gitlab" },
-		root_dir = function(fname)
-			return vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
-		end,
-		single_file_support = true,
-		settings = {
-			redhat = { telemetry = { enabled = false } },
-			yaml = {
-				format = { enable = { true } }, -- formatting is not default
-			},
-		},
+		-- cmd = { "yaml-language-server", "--stdio" },
+		-- filetypes = { "yaml", "yaml.docker-compose", "yaml.gitlab" },
+		-- root_dir = function(fname)
+		-- 	return vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
+		-- end,
+		-- single_file_support = true,
+		-- settings = {
+		-- 	redhat = { telemetry = { enabled = false } },
+		-- 	yaml = {
+		-- 		format = { enable = { true } }, -- formatting is not default
+		-- 	},
+		-- },
 	},
 	taplo = {},
 	-- dockerls = {},
@@ -163,24 +157,10 @@ local servers = {
 		-- settings = { ltex = { language = "da-DK" } },
 	},
 }
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 for server_name, server_config in pairs(servers) do
-	-- server_config.capabilities = capabilities
 	lspconfig[server_name].setup(server_config)
 end
-
--- emmet_language_server must start after html and gopls to avoid issues, or not?
--- seems to be an issue with build in completion
---
--- vim.defer_fn(function()
--- 	lspconfig.emmet_language_server.setup({})
--- end, 500)
-
--- trying out different completion plugins as an alternative to build in completion both provide great out of the box experience
--- require("blink.cmp").setup()
--- require("mini.completion").setup({})
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
@@ -198,52 +178,61 @@ vim.api.nvim_create_autocmd("LspAttach", {
 					vim.split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTUVWXYZ", "")
 				)
 			end
-			-- vim.api.nvim_create_autocmd({ "TextChangedI" }, {
-			-- 	buffer = args.buf,
-			-- 	callback = function()
-			-- 		vim.lsp.completion.get()
-			-- 	end,
-			-- })
 
 			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 		end
 
+		-- Inlay Hints
 		if client.server_capabilities.inlayHintProvider then
 			vim.keymap.set("n", "<leader>ih", function()
 				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 			end)
 		end
 
-		-- For now I use Conform instead
-		-- Autoformatting
+		-- Autoformatting ( for now I use Conform instead)
 		-- if client.server_capabilities.documentFormattingProvider then
-		-- 	vim.api.nvim_create_autocmd('BufWritePre', {
-		-- 		buffer = args.buf,
+		-- 	vim.api.nvim_create_autocmd("BufWritePre", {
+		-- 		pattern = "*",
 		-- 		callback = function()
-		-- 			vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+		-- 			vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
 		-- 		end,
 		-- 	})
 		-- end
 
+		if client.server_capabilities.documentHighlightProvider then
+			vim.keymap.set("n", "g*", vim.lsp.buf.document_highlight)
+			vim.keymap.set("n", "<Esc>", function()
+				vim.cmd("nohlsearch")
+				vim.lsp.buf.clear_references()
+			end)
+
+			-- vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+			-- 	group = vim.api.nvim_create_augroup("lsp_highlight", { clear = true }),
+			-- 	buffer = args.buf,
+			-- 	callback = vim.lsp.buf.clear_references,
+			-- })
+		end
+
 		-- Auto highlight current item(similar to vscode)
-		-- if
-		-- 	client
-		-- 	and client.supports_method(
-		-- 		vim.lsp.protocol.Methods.textDocument_documentHighlight,
-		-- 		{ bufnr = args.buf }
-		-- 	)
-		-- then
+		-- if client.server_capabilities.documentHighlightProvider then
 		-- 	local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
-		-- 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-		-- 		buffer = args.buf,
-		-- 		group = highlight_augroup,
-		-- 		callback = vim.lsp.buf.document_highlight,
-		-- 	})
+		-- 	-- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+		-- 	-- 	buffer = args.buf,
+		-- 	-- 	group = highlight_augroup,
+		-- 	-- 	callback = function()
+		-- 	-- 		vim.lsp.buf.document_highlight()
+		-- 	-- 	end,
+		-- 	-- })
 		--
 		-- 	vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 		-- 		buffer = args.buf,
 		-- 		group = highlight_augroup,
-		-- 		callback = vim.lsp.buf.clear_references,
+		-- 		-- callback = vim.lsp.buf.clear_references,
+		--
+		-- 		callback = function()
+		-- 			vim.lsp.buf.clear_references()
+		-- 			vim.lsp.buf.document_highlight()
+		-- 		end,
 		-- 	})
 		--
 		-- 	vim.api.nvim_create_autocmd("LspDetach", {

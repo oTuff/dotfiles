@@ -42,7 +42,7 @@ Neovim has some nice default keymaps for things like lsp features.
 ```
 K - (shift k) information about item under the cursor
 gra - code action
-grr - show references
+grr - show references (which populates the references in the quickfix list)
 grn - rename item under the cursor
 <c-]> - go to definition
 
@@ -247,6 +247,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 ```
+
+## Quickfix list
+
+TODO
 
 ## Language Server Protocol (lsp)
 
@@ -647,6 +651,8 @@ require("gitsigns").setup({
 })
 ```
 
+7 5 6
+
 ## My most used neovim key combinations / commands
 
 ```
@@ -674,6 +680,12 @@ will go through and ask - "y" or "n")
 
 f and F - until forward or backwards. nice to select text.
 t and T - similar to "f" but goes to the char before.
+
+<c-a> - to increase a letter by 1
+<c-x> - to decrease a letter by 1
+
+~ - to switch between capitalization for visual selection or single letter
+g~w use `g` before `~` and then use a motion after it
 ```
 
 Neovim is supper awesome and can be configured to your liking. If you are in
