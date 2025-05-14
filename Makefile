@@ -11,3 +11,7 @@ update: # Update flake
 	nix flake update
 	$(MAKE) switch
 .PHONY: update
+
+clean: # Clean the nix store
+	nix-store --gc
+.PHONY: clean
