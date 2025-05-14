@@ -1,8 +1,6 @@
 {
   config,
   pkgs,
-  lib,
-  nixgl,
   ...
 }:
 
@@ -11,20 +9,25 @@
   home.homeDirectory = "/home/user";
   home.stateVersion = "24.11";
 
+  # https://search.nixos.org/packages
   home.packages = with pkgs; [
+    pkgs.nixgl.nixGLIntel
     foot
     tmux
     ripgrep
     fd
     fzf
-    git-credential-manager
     tree-sitter
-    postgresql
-    aider-chat
-    pkgs.nixgl.nixGLIntel
+    git-credential-manager
+    cloc
+    plantuml
+    visidata
+    # aerc
+    mpv
+    yt-dlp
 
     # ltex stuff
-    texliveFull
+    texliveMedium
     pandoc
     haskellPackages.pandoc-crossref
     zathura
@@ -34,8 +37,8 @@
     nixfmt-rfc-style
     lua-language-server
     stylua
-    # pylyzer
-    basedpyright
+    # basedpyright
+    pyright
     ruff
     go
     gopls
@@ -57,7 +60,6 @@
     marksman
     typos-lsp
     harper
-    # ltex-ls
     ltex-ls-plus
     texlab
     emmet-language-server
