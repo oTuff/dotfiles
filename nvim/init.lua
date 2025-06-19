@@ -7,17 +7,12 @@ require("format")
 require("git")
 require("snippet")
 require("indent")
-require("myai")
+-- require("myai")
 
--- Diagnotics
--- vim.diagnostic.config({ virtual_text = true })
--- vim.diagnostic.config({ virtual_lines = { current_line = true } })
--- vim.keymap.set("n", "gK", function()
--- 	local new_config = not vim.diagnostic.config().virtual_lines
--- 	vim.diagnostic.config({ virtual_lines = new_config })
--- end, { desc = "Toggle diagnostic virtual_lines" })
-vim.keymap.set("n", "gK", vim.diagnostic.open_float)
-
+-- Other plugins
+require("nvim-autopairs").setup({ check_ts = true })
+require("mini.icons").setup()
+require("mini.files").setup()
 -- require("fidget").setup()
 -- require("oil").setup({ view_options = { show_hidden = true } })
 -- require("nvim-tree").setup({
@@ -45,12 +40,54 @@ function Fd(file_pattern, _)
 	return result
 end
 vim.opt.findfunc = "v:lua.Fd"
--- vim.keymap.set("n", "<leader>ff", ":find ")
 
--- Other plugins
-require("nvim-autopairs").setup({ check_ts = true })
-require("mini.icons").setup()
-require("mini.files").setup()
+-- File templates
+vim.api.nvim_create_user_command("Templ", function()
+	vim.api.nvim_feedkeys(":0read ~/Templates/", "n", false)
+end, {})
+
+-- Otter stuff
+
+-- require("otter").setup()
+-- require("otter").activate()
+-- {
+-- 	lsp = {
+-- 		["javascript"] = { "ts_ls" },
+-- 		["typescript"] = { "ts_ls" },
+-- 	},
+-- })
+-- vim.api.nvim_create_autocmd("InsertEnter", {
+-- 	group = vim.api.nvim_create_augroup("otter-autostart", {}),
+-- 	-- ...But this only runs in markdown and quarto documents
+-- 	pattern = { "*.md", "*.qmd" },
+-- 	callback = function()
+-- 		-- Get the treesitter parser for the current buffer
+-- 		local ok, parser = pcall(vim.treesitter.get_parser)
+-- 		if not ok then
+-- 			return
+-- 		end
+--
+-- 		local otter = require("otter")
+-- 		local extensions = require("otter.tools.extensions")
+-- 		local attached = {}
+--
+-- 		-- Get the language for the current cursor position (this will be
+-- 		-- determined by the current code chunk if that's where the cursor
+-- 		-- is)
+-- 		local line, col = vim.fn.line(".") - 1, vim.fn.col(".")
+-- 		local lang = parser:language_for_range({ line, col, line, col + 1 }):lang()
+--
+-- 		-- If otter has an extension available for that language, and if
+-- 		-- the LSP isn't already attached, then activate otter for that
+-- 		-- language
+-- 		if extensions[lang] and not vim.tbl_contains(attached, lang) then
+-- 			table.insert(attached, lang)
+-- 			vim.schedule(function()
+-- 				otter.activate({ lang }, true, true)
+-- 			end)
+-- 		end
+-- 	end,
+-- })
 
 -- Mostly for tailwind:
 -- require("nvim-highlight-colors").setup()
@@ -58,3 +95,9 @@ require("mini.files").setup()
 -- require("lint").linters_by_ft = {
 -- 	lua = { "luacheck" },
 -- }
+
+vim.filetype.add({
+	pattern = {
+		[".?env.?.*"] = "dotenv",
+	},
+})

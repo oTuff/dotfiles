@@ -7,6 +7,7 @@ vim.opt.listchars = {
 	precedes = "«",
 }
 
+-- TODO: handle case where expandtab is true but shiftwidth is 0 (should use the tabstop instead)
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = vim.api.nvim_create_augroup("indent-char", { clear = true }),
 	pattern = "*",

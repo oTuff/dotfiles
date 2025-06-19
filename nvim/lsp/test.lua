@@ -1,0 +1,7 @@
+-- return {
+-- 	cmd = { "vscode-html-languageservice", "--stdio" },
+-- 	filetypes = { "gotmpl" },
+-- 	root_markers = {
+-- 		".git",
+-- 	},
+-- }

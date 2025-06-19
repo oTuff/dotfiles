@@ -21,10 +21,11 @@
     git-credential-manager
     cloc
     plantuml
-    visidata
+    # visidata
     # aerc
     mpv
     yt-dlp
+    feh
 
     # ltex stuff
     texliveMedium
@@ -32,13 +33,14 @@
     haskellPackages.pandoc-crossref
     zathura
 
-    # lsp and formatters
+    # lsps, formatters and linters
     nixd
     nixfmt-rfc-style
     lua-language-server
     stylua
     # basedpyright
     pyright
+    ty
     ruff
     go
     gopls
@@ -63,9 +65,9 @@
     ltex-ls-plus
     texlab
     emmet-language-server
-    ansible-language-server
     sqls
-    # pgformatter
+    sqlfluff
+    # ansible-language-server
     # postgres-lsp
     # docker-compose-language-service
     # docker-ls
@@ -186,8 +188,10 @@
         nvim-treesitter-context
         nvim-ts-autotag
         nvim-autopairs
-        csvview-nvim
-        minuet-ai-nvim
+
+        # csvview-nvim
+        # minuet-ai-nvim
+        # otter-nvim
         # nvim-lint
         # nvim-highlight-colors
       ];

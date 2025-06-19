@@ -42,13 +42,13 @@ require("minuet").setup({
 			-- Therefore, we must disable it and manually populate the special
 			-- tokens required for FIM completion.
 			template = {
-				prompt = function(context_before_cursor, context_after_cursor)
-					return "<|fim_prefix|>"
-						.. context_before_cursor
-						.. "<|fim_suffix|>"
-						.. context_after_cursor
-						.. "<|fim_middle|>"
-				end,
+				-- prompt = function(context_before_cursor, context_after_cursor)
+				-- 	return "<|fim_prefix|>"
+				-- 		.. context_before_cursor
+				-- 		.. "<|fim_suffix|>"
+				-- 		.. context_after_cursor
+				-- 		.. "<|fim_middle|>"
+				-- end,
 				suffix = false,
 			},
 		},
