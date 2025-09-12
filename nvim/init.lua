@@ -9,17 +9,34 @@ require("snippet")
 require("indent")
 -- require("myai")
 
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
+
 -- Other plugins
 require("nvim-autopairs").setup({ check_ts = true })
-require("mini.icons").setup()
-require("mini.files").setup()
+-- require("mini.icons").setup()
+require("mini.files").setup({
+	mappings = {
+		close = "<esc>",
+		-- go_in = "<enter>",
+		-- go_out = "-",
+	},
+})
+
 -- require("fidget").setup()
--- require("oil").setup({ view_options = { show_hidden = true } })
--- require("nvim-tree").setup({
--- 	update_focused_file = { enable = true },
--- 	view = { adaptive_size = true },
--- 	git = { ignore = false },
--- })
+
+require("telescope").setup({
+	defaults = require("telescope.themes").get_ivy(),
+
+	-- extensions = {
+	-- 	fzy_native = {
+	-- 		override_generic_sorter = false,
+	-- 		override_file_sorter = true,
+	-- 	},
+	-- },
+})
+-- require("telescope").load_extension("fzy_native")
+-- require("telescope").load_extension("fzf") -- fzf sucks
 
 -- Grep and Find
 -- vim.opt.grepprg = "rg --vimgrep --smart-case"
@@ -101,3 +118,40 @@ vim.filetype.add({
 		[".?env.?.*"] = "dotenv",
 	},
 })
+
+-- playing around with colorschemes
+-- vim.cmd.colorscheme("torte")
+-- vim.cmd.colorscheme("quiet")
+--
+-- local white = "#ffffff"
+-- local hl = vim.api.nvim_set_hl
+--
+-- -- General programming keywords
+-- hl(0, "@keyword", { fg = white }) -- if, for, return, do
+-- -- hl(0, "@SpecialChar", { fg = white }) -- if, for, return, do
+-- vim.api.nvim_set_hl(0, "@string.special.symbol.elixir", { fg = "#ffffff" })
+-- hl(0, "@conditional", { fg = white }) -- if, else, elseif
+-- hl(0, "@repeat", { fg = white }) -- for, while, etc.
+-- hl(0, "@keyword.conditional", { fg = white }) -- def, fn
+-- hl(0, "@keyword.repeat", { fg = white }) -- def, fn
+
+-- hl(0, "@keyword.function", { fg = white }) -- def, fn
+-- hl(0, "@keyword.return", { fg = white }) -- return
+-- hl(0, "@label", { fg = white }) -- keys in keyword lists (key:)
+-- hl(0, "@operator", { fg = white }) -- operators like `+`, `==`
+-- hl(0, "@function", { fg = white }) -- named functions
+
+-- Elixir-specific / atom-like values
+-- hl(0, "@constant", { fg = white }) -- :atom
+-- hl(0, "@constant.builtin", { fg = white }) -- :ok, :error, etc.
+-- hl(0, "@symbol", { fg = white }) -- Elixir symbols (may overlap)
+
+-- Optionally adjust types and builtins
+-- hl(0, "@type", { fg = white }) -- type declarations
+-- hl(0, "@variable.builtin", { fg = white })
+
+-- vim.api.nvim_create_user_command("Eslint", function()
+-- 	local file = vim.fn.shellescape(vim.api.nvim_buf_get_name(0))
+-- 	vim.cmd("cexpr system('eslint --format unix ' .. " .. file .. ")")
+-- 	vim.cmd("copen")
+-- end, {})

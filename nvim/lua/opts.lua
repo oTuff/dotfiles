@@ -1,8 +1,9 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 0
+-- vim.opt.tabstop = 2
+-- vim.opt.shiftwidth = 0
+-- vim.opt.expandtab = true
 
 vim.opt.wrap = false
 vim.opt.scrolloff = 10
@@ -14,18 +15,19 @@ vim.opt.undofile = true
 vim.opt.updatetime = 250
 
 vim.opt.signcolumn = "yes"
-vim.opt.colorcolumn = "80"
+-- vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
 
-vim.opt.spell = true
+-- vim.opt.spell = true
 vim.opt.spelloptions = "camel"
 vim.opt.spellsuggest = "best,5"
 
-vim.opt.completeopt = "menuone,noinsert,fuzzy"
+-- vim.opt.completeopt = "menuone,noinsert,fuzzy"
+vim.opt.completeopt = "menuone,noinsert"
 vim.opt.pumheight = 10
-
 vim.opt.wildmode = "longest:full,full"
+vim.opt.wildoptions = "pum,tagfile,fuzzy"
 vim.opt.wildignorecase = true
 
 vim.opt.foldmethod = "expr"

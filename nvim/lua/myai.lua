@@ -1,9 +1,12 @@
 require("minuet").setup({
 	virtualtext = {
 		auto_trigger_ft = { "*" },
+		auto_trigger_ignore_ft = { "TelescopePrompt" },
+
 		keymap = {
 			-- accept whole completion
-			accept = "<A-A>",
+			-- accept = "<A-A>",
+			accept = "<TAB>",
 			-- accept one line
 			accept_line = "<A-a>",
 			-- accept n lines (prompts for number)

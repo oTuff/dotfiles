@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 
@@ -11,21 +12,32 @@
 
   # https://search.nixos.org/packages
   home.packages = with pkgs; [
+    toybox
+    # busybox
+    oksh
+    openvi
+    # mg
     pkgs.nixgl.nixGLIntel
     foot
     tmux
     ripgrep
     fd
-    fzf
+    # fzf
+    fzy
     tree-sitter
     git-credential-manager
     cloc
-    plantuml
+    # plantuml
     # visidata
     # aerc
     mpv
     yt-dlp
     feh
+    # luajit
+    # opencode
+    # ollama
+    # cmake
+    # ninja
 
     # ltex stuff
     texliveMedium
@@ -42,9 +54,15 @@
     pyright
     ty
     ruff
+    odin
+    ols
     go
     gopls
     gotools
+    go-tools
+    pkgsite
+    # exhaustive
+    cargo
     rust-analyzer
     rustfmt
     deno
@@ -66,7 +84,7 @@
     texlab
     emmet-language-server
     sqls
-    sqlfluff
+    sqruff
     # ansible-language-server
     # postgres-lsp
     # docker-compose-language-service
@@ -79,12 +97,6 @@
   ];
   # fonts.fontconfig.enable = true;
 
-  # nixpkgs.config.allowUnfreePredicate =
-  #   pkg:
-  #   builtins.elem (lib.getName pkg) [
-  #     "copilot.vim"
-  #   ];
-
   # Gnome settings
   dconf.settings = import ./gnome.nix;
 
@@ -92,6 +104,7 @@
   programs.bash = {
     enable = true;
     bashrcExtra = "source /etc/bashrc";
+    initExtra = "PROMPT_COMMAND='history -a'";
   };
   programs.zoxide = {
     enable = true;
@@ -104,10 +117,19 @@
   programs.git = {
     enable = true;
     lfs.enable = true;
-    extraConfig = {
-      credential.helper = "manager";
-    };
+    # extraConfig = {
+    #   credential.helper = "manager";
+    #   credential.credentialStore = "secretservice";
+    #   # credential.helper = "~/.nix-profile/bin/git-credential-manager";
+    #   # credential.credentialStore = "gnome-keyring";
+    # };
   };
+
+  # nixpkgs.config.allowUnfreePredicate =
+  #   pkg:
+  #   builtins.elem (lib.getName pkg) [
+  #     "copilot.vim"
+  #   ];
 
   # Neovim config - mainly plugins
   programs.neovim = {
@@ -130,7 +152,7 @@
             # diff
             # dockerfile
             # editorconfig
-            # elixir
+            elixir
             # git_config
             # git_rebase
             # gitattributes
@@ -141,6 +163,7 @@
             # gosum
             gotmpl
             # gowork
+            heex
             html
             # http
             # ini
@@ -174,6 +197,13 @@
             yaml
           ]
         );
+        # fzynvim = pkgs.vimUtils.buildVimPlugin {
+        #   name = "nvim-fzy";
+        #   version = "HEAD";
+        #   src = builtins.fetchGit {
+        #     url = "https://codeberg.org/mfussenegger/nvim-fzy";
+        #   };
+        # };
       in
       with pkgs.vimPlugins;
       [
@@ -183,14 +213,28 @@
         gitsigns-nvim
         fzf-lua
         mini-files
-        mini-icons
+        # oil-nvim
+        # mini-icons
+        nvim-web-devicons
+
+        # copilot-vim
+
+        vim-dirvish
+
         conform-nvim
         nvim-treesitter-context
         nvim-ts-autotag
         nvim-autopairs
 
+        # fidget-nvim
+        telescope-nvim
+        telescope-fzy-native-nvim
+        telescope-fzf-native-nvim
+        telescope-file-browser-nvim
+        minuet-ai-nvim
+
+        # fzynvim
         # csvview-nvim
-        # minuet-ai-nvim
         # otter-nvim
         # nvim-lint
         # nvim-highlight-colors

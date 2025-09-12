@@ -20,7 +20,7 @@
 	prune = true
 [credential]
 	credentialStore = secretservice
-; 	helper = ~/.nix-profile/bin/git-credential-manager
+	helper = manager
 ; [credential "https://dev.azure.com"]
 ; 	useHttpPath = true
 ; [filter "lfs"]

@@ -3,4 +3,5 @@ return {
 		"deno.json",
 		"deno.jsonc",
 	},
+	workspace_required = true,
 }
