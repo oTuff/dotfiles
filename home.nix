@@ -232,7 +232,7 @@
     ".tmux.conf".source = ./.tmux.conf;
     ".config/nvim/".source = config.lib.file.mkOutOfStoreSymlink ~/dotfiles/nvim; # use impure
     ".config/foot/foot.ini".source = ./foot.ini;
-    ".wezterm.lua/".source = ./.wezterm.lua;
+    # ".wezterm.lua/".source = ./.wezterm.lua;
     # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
     # ".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   };
