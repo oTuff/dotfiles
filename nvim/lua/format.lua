@@ -1,13 +1,16 @@
+-- TODO: can probably remove conform and just use lsp formatting
+-- Only prettier cannot be run through an lsp -> use deno_fmt instead
+-- the eslint lsp can run prettier: ez life
 require("conform").setup({
 	formatters_by_ft = {
-		nix = { "nixfmt" }, -- default
-		python = { "ruff_format" }, -- default
+		-- nix = { "nixfmt" }, -- default
+		-- python = { "ruff_format" }, -- just use ruff lsp
 		-- rust = { "rustfmt" }, -- just use rust_analyzer to format
-		toml = { "taplo" }, -- default
-		elixir = { "mix" }, -- default
-		yaml = { "prettier" }, -- yaml lsp have inbuild formatter
-		sql = { "sqruff", lsp_format = "never" }, -- has lsp
-		lua = { "stylua" },
+		-- toml = { "taplo" }, -- default
+		-- elixir = { "mix" }, -- default
+		-- sql = { "sqruff", lsp_format = "never" }, -- has an lsp
+		-- lua = { "stylua" }, -- can also run stylua as an lsp
+		-- yaml = { "prettier" }, -- yaml lsp have inbuild formatter
 		javascript = { "prettier" },
 		typescript = { "prettier" },
 		javascriptreact = { "prettier" },
@@ -17,8 +20,8 @@ require("conform").setup({
 		graphql = { "prettier" },
 		-- json = { "prettier" },
 		-- jsonc = { "prettier" },
-		markdown = { "deno_fmt" },
-		go = { "goimports", "gofmt" },
+		markdown = { "deno_fmt" }, -- has an lsp
+		-- go = { "goimports", "gofmt" },
 		-- gotmpl = { "djlint" },
 		-- ["*"] = { "injected" }, -- for markdown code blocks
 	},

@@ -12,19 +12,15 @@
 
   # https://search.nixos.org/packages
   home.packages = with pkgs; [
-    toybox
-    # busybox
-    oksh
-    openvi
-    # mg
     pkgs.nixgl.nixGLIntel
+    jq
+    openvi
     foot
     tmux
     ripgrep
     fd
-    # fzf
     fzy
-    tree-sitter
+    # tree-sitter
     git-credential-manager
     cloc
     # plantuml
@@ -33,11 +29,13 @@
     mpv
     yt-dlp
     feh
-    # luajit
-    # opencode
+    luajit
+    zig
+    clang
+    clang-tools
     # ollama
-    # cmake
-    # ninja
+    copilot-language-server
+    github-copilot-cli
 
     # ltex stuff
     texliveMedium
@@ -61,7 +59,6 @@
     gotools
     go-tools
     pkgsite
-    # exhaustive
     cargo
     rust-analyzer
     rustfmt
@@ -85,17 +82,7 @@
     emmet-language-server
     sqls
     sqruff
-    # ansible-language-server
-    # postgres-lsp
-    # docker-compose-language-service
-    # docker-ls
-
-    # (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
   ];
-  # fonts.fontconfig.enable = true;
 
   # Gnome settings
   dconf.settings = import ./gnome.nix;
@@ -103,7 +90,10 @@
   # Bash etc.
   programs.bash = {
     enable = true;
-    bashrcExtra = "source /etc/bashrc";
+    bashrcExtra = ''
+      source /etc/bashrc
+      export PS1="\[\e[32m\]\w\[\e[0m\]\$ "
+    '';
     initExtra = "PROMPT_COMMAND='history -a'";
   };
   programs.zoxide = {
@@ -125,11 +115,13 @@
     # };
   };
 
-  # nixpkgs.config.allowUnfreePredicate =
-  #   pkg:
-  #   builtins.elem (lib.getName pkg) [
-  #     "copilot.vim"
-  #   ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "copilot.vim"
+      "copilot-language-server"
+      "github-copilot-cli"
+    ];
 
   # Neovim config - mainly plugins
   programs.neovim = {
@@ -208,31 +200,17 @@
       with pkgs.vimPlugins;
       [
         # nvim-treesitter.withAllGrammars
-        nvim-treesitter-with-plugins
-        nvim-lspconfig
         gitsigns-nvim
-        fzf-lua
         mini-files
-        # oil-nvim
-        # mini-icons
-        nvim-web-devicons
-
-        # copilot-vim
-
-        vim-dirvish
-
-        conform-nvim
+        nvim-lspconfig
+        nvim-treesitter-with-plugins
         nvim-treesitter-context
         nvim-ts-autotag
         nvim-autopairs
-
+        copilot-vim # TODO: replace with copilot lsp
+        telescope-nvim # TODO: replace with own minimal fzy integration
+        # conform-nvim
         # fidget-nvim
-        telescope-nvim
-        telescope-fzy-native-nvim
-        telescope-fzf-native-nvim
-        telescope-file-browser-nvim
-        minuet-ai-nvim
-
         # fzynvim
         # csvview-nvim
         # otter-nvim
@@ -244,9 +222,9 @@
     # extraLuaConfig = ''${builtins.readFile ./nvim/init.lua}'';
   };
 
-  home.shellAliases = {
-    copilot = "ramalama serve ollama://qwen2.5-coder:1.5b -p 8012";
-  };
+  # home.shellAliases = {
+  #   copilot = "ramalama serve ollama://qwen2.5-coder:1.5b -p 8012";
+  # };
 
   home.file = {
     ".gitconfig".source = ./.gitconfig;
@@ -254,7 +232,7 @@
     ".tmux.conf".source = ./.tmux.conf;
     ".config/nvim/".source = config.lib.file.mkOutOfStoreSymlink ~/dotfiles/nvim; # use impure
     ".config/foot/foot.ini".source = ./foot.ini;
-    # ".wezterm.lua/".source = ./.wezterm.lua;
+    ".wezterm.lua/".source = ./.wezterm.lua;
     # ".config/wezterm/wezterm.lua/".source = ./.wezterm.lua;
     # ".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   };

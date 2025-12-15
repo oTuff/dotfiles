@@ -1,4 +1,5 @@
 require("gitsigns").setup({
+	sign_priority = 10,
 	on_attach = function(bufnr)
 		local gitsigns = require("gitsigns")
 

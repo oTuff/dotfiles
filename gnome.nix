@@ -10,6 +10,10 @@
   "org/gnome/desktop/peripherals/mouse" = {
     accel-profile = "flat";
   };
+  # stfu stupid bell!!!
+  "org/gnome/desktop/sound" = {
+    event-sounds = false;
+  };
   "org/gnome/mutter" = {
     dynamic-workspaces = false;
   };
@@ -30,6 +34,11 @@
     move-to-workspace-2 = [ "<Shift><Super>2" ];
     move-to-workspace-3 = [ "<Shift><Super>3" ];
     move-to-workspace-4 = [ "<Shift><Super>4" ];
+    switch-applications = [ ];
+    switch-applications-backward = [ ];
+    switch-windows = [ "<Alt>Tab" ];
+    switch-windows-backward = [ "<Shift><Alt>Tab" ];
+
   };
   "org/gnome/settings-daemon/plugins/media-keys" = {
     screensaver = [ "<Super>i" ];

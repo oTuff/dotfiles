@@ -1,4 +1,5 @@
 return {
+	root_markers = { "tailwind.config.cjs" },
 	filetypes = {
 		-- html
 		-- "aspnetcorerazor",
@@ -55,5 +56,5 @@ return {
 		-- "svelte",
 		-- "templ",
 	},
-	workspace_required = true,
+	-- workspace_required = true,
 }

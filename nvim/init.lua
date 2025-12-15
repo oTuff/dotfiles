@@ -3,40 +3,22 @@ require("keymap")
 require("autocmd")
 require("lsp")
 require("treesitter")
-require("format")
 require("git")
-require("snippet")
 require("indent")
--- require("myai")
-
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
+-- require("snippet")
+-- require("format") -- rely on lsp for formatting instead
 
 -- Other plugins
-require("nvim-autopairs").setup({ check_ts = true })
--- require("mini.icons").setup()
+-- require("nvim-autopairs").setup({ check_ts = true })
 require("mini.files").setup({
+	content = { prefix = function() end }, -- disable icons
 	mappings = {
 		close = "<esc>",
 		-- go_in = "<enter>",
 		-- go_out = "-",
 	},
 })
-
--- require("fidget").setup()
-
-require("telescope").setup({
-	defaults = require("telescope.themes").get_ivy(),
-
-	-- extensions = {
-	-- 	fzy_native = {
-	-- 		override_generic_sorter = false,
-	-- 		override_file_sorter = true,
-	-- 	},
-	-- },
-})
--- require("telescope").load_extension("fzy_native")
--- require("telescope").load_extension("fzf") -- fzf sucks
+require("telescope").setup({ defaults = require("telescope.themes").get_ivy() })
 
 -- Grep and Find
 -- vim.opt.grepprg = "rg --vimgrep --smart-case"
@@ -59,12 +41,11 @@ end
 vim.opt.findfunc = "v:lua.Fd"
 
 -- File templates
-vim.api.nvim_create_user_command("Templ", function()
-	vim.api.nvim_feedkeys(":0read ~/Templates/", "n", false)
-end, {})
+-- vim.api.nvim_create_user_command("Templ", function()
+-- 	vim.api.nvim_feedkeys(":0read ~/Templates/", "n", false)
+-- end, {})
 
 -- Otter stuff
-
 -- require("otter").setup()
 -- require("otter").activate()
 -- {
@@ -113,11 +94,11 @@ end, {})
 -- 	lua = { "luacheck" },
 -- }
 
-vim.filetype.add({
-	pattern = {
-		[".?env.?.*"] = "dotenv",
-	},
-})
+-- vim.filetype.add({
+-- 	pattern = {
+-- 		[".?env.?.*"] = "dotenv",
+-- 	},
+-- })
 
 -- playing around with colorschemes
 -- vim.cmd.colorscheme("torte")

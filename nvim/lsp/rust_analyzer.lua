@@ -2,6 +2,8 @@ return {
 	settings = {
 		["rust-analyzer"] = {
 			check = {
+				targets = { "x86_64-unknown-linux-gnu", "wasm32-unknown-unknown" },
+				-- allTargets = true,
 				command = "clippy",
 			},
 		},

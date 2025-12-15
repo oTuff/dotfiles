@@ -11,8 +11,8 @@ require("treesitter-context").setup({
 
 require("nvim-ts-autotag").setup()
 
-vim.filetype.add({
-	extension = {
-		tmpl = "gotmpl",
-	},
-})
+-- vim.filetype.add({
+-- 	extension = {
+-- 		tmpl = "gotmpl",
+-- 	},
+-- })

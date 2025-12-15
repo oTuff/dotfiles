@@ -13,11 +13,13 @@
 	keepBackup = false
 	prompt = true
 [pull]
-    ff = only
+	ff = only
 [push]
 	autoSetupRemote = true
 [fetch]
 	prune = true
+[stash]
+	showIncludeUntracked = true
 [credential]
 	credentialStore = secretservice
 	helper = manager
